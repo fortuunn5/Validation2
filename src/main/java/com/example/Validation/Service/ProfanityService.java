@@ -1,31 +1,31 @@
 package com.example.Validation.Service;
 
-import com.example.Validation.Dto.ProfanityDto;
+import com.example.Validation.Dto.Position;
 import com.example.Validation.Exception.EntityNotFoundException;
 import com.example.Validation.Model.Profanity;
-import com.example.Validation.Repository.ProfanityRepository;
+import com.example.Validation.Repository.ProfanityRepositorySQL;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProfanityService {
-    private final ProfanityRepository profanityRepository;
+    private final ProfanityRepositorySQL profanityRepository;
 
     public Profanity createProfanity(String word) {
         return profanityRepository.createProfanity(word);
     }
 
-    public Profanity getProfanity(Long id)  {
-        Profanity profanity = profanityRepository.getProfanity(id);
-        return profanity;
+    public Profanity getProfanity(Long id) {
+        return profanityRepository.getProfanity(id);
     }
 
     public Profanity getProfanityByWord(String word) {
-        Profanity profanity = profanityRepository.getProfanityByWord(word);
-        return profanity;
+        return profanityRepository.getProfanityByWord(word);
     }
 
     public List<Profanity> getAllProfanities() {
@@ -52,5 +52,21 @@ public class ProfanityService {
             throw new EntityNotFoundException("Записи с таким словом нет в базе данных");
         }
         profanityRepository.deleteProfanityByWord(word);
+    }
+
+    public List<Position> getPositionsOfProfanities(String message) {
+        List<Profanity> profanities = getAllProfanities();
+        List<Position> positions = new ArrayList<>();
+        long value;
+        for (Profanity profanity : profanities) {
+            value = StringUtils.indexOfIgnoreCase(message, profanity.getWordValue());
+            if (value != -1) {
+                positions.add(new Position(value + 1,
+                        value + profanity.getWordValue().length(),
+                        profanity.getWordValue())
+                );
+            }
+        }
+        return positions;
     }
 }

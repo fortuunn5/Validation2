@@ -1,6 +1,8 @@
 package com.example.Validation.Controller;
 
+import com.example.Validation.Dto.Position;
 import com.example.Validation.Dto.ProfanityDto;
+import com.example.Validation.Dto.ValidationResponse;
 import com.example.Validation.Exception.EntityNotFoundException;
 import com.example.Validation.Mapper.ProfanityMapper;
 import com.example.Validation.Service.ProfanityService;
@@ -47,14 +49,20 @@ public class ProfanityController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteProfanity(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> deleteProfanity(@PathVariable(name = "id") Long id) {
         profanityService.deleteProfanity(id);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping
-    public ResponseEntity deleteProfanityByWord(@PathParam("word") String word) {
+    public ResponseEntity<?> deleteProfanityByWord(@PathParam("word") String word) {
         profanityService.deleteProfanityByWord(word);
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/positions")
+    public ResponseEntity<ValidationResponse> getPositions(@RequestBody String message) {
+        ValidationResponse validationResponse = new ValidationResponse(profanityService.getPositionsOfProfanities(message));
+        return new ResponseEntity<>(validationResponse, HttpStatus.OK);
     }
 }
