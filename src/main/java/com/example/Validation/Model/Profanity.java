@@ -14,6 +14,7 @@ import java.util.Objects;
 @Builder
 public class Profanity {
     @Id
+    @org.springframework.data.annotation.Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

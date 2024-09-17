@@ -5,7 +5,7 @@ import com.example.Validation.Model.Profanity;
 import java.util.List;
 
 public interface ProfanityRepository {
-    Profanity createProfanity(String word);
+    Profanity createProfanity(Profanity newProfanity);
 
     Profanity getProfanity(Long profanityId);
 

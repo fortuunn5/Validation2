@@ -1,7 +1,7 @@
 package com.example.Validation.Config;
 
 import com.example.Validation.Model.Profanity;
-import com.example.Validation.Service.ProfanityService;
+import com.example.Validation.Service.ProfanityServiceSQL;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class ConfigDB implements ApplicationRunner {
-    private final ProfanityService profanityService;
+    private final ProfanityServiceSQL profanityService;
 
 
     @Override

@@ -1,6 +1,7 @@
-package com.example.Validation.Repository;
+package com.example.Validation.Repository.Sql;
 
 import com.example.Validation.Model.Profanity;
+import com.example.Validation.Repository.ProfanityRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -19,18 +20,19 @@ public class ProfanityRepositorySQL implements ProfanityRepository {
     private final SessionFactory sessionFactory;
 
     @Override
-    public Profanity createProfanity(String word) {
+    public Profanity createProfanity(Profanity newProfanity) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
 //            session.persist(new Profanity(word));
+            session.persist(newProfanity);
 
-            MutationQuery query = session.createMutationQuery("INSERT INTO Profanity(wordValue) VALUES (:word_value)");
-            query.setParameter("word_value", word);
-            query.executeUpdate();
+//            MutationQuery query = session.createMutationQuery("INSERT INTO Profanity(wordValue) VALUES (:word_value)");
+//            query.setParameter("word_value", word);
+//            query.executeUpdate();
 
             transaction.commit();
         }
-        return getProfanityByWord(word);
+        return getProfanityByWord(newProfanity.getWordValue());
     }
 
     @Override

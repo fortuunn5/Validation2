@@ -17,12 +17,22 @@ spring:
   sql:
     init:
       mode: always
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: Validation
+#      uri: mongodb://localhost:27017/Validation
+
+  main:
+    allow-bean-definition-overriding: true
 logging:
   level:
     org:
       hibernate:
         SQL: DEBUG
         type: TRACE
+
 
 #logging:
 #  level:
